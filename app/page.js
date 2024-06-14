@@ -9,9 +9,14 @@ const HomePage = () => {
             GPTGenius: Your AI language companion. Powered by OpenAI, it
             enhances your conversations, content creation, and more!
           </p>
+          
+          
           <Link href='/chat' className='btn btn-secondary '>
             Get Started
           </Link>
+          <div className='p-5 font-bold text-xl'>
+          <span>&#169;</span>Ishan Sharma
+          </div>
         </div>
       </div>
     </div>

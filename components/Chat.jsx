@@ -84,8 +84,11 @@ const Chat = () => {
           <button className='btn btn-primary join-item' type='submit'>
             ask question
           </button>
+          
         </div>
       </form>
+      
+      
     </div>
   );
 };

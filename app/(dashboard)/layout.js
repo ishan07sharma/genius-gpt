@@ -12,7 +12,11 @@ const layout = ({ children }) => {
         >
           <FaBarsStaggered className='w-8 h-8 text-primary' />
         </label>
-        <div className='bg-base-200 px-8 py-12 min-h-screen'>{children}</div>
+        <div className='bg-base-200 px-8 py-12 min-h-screen'>{children}
+        <div className='fixed bottom-0 right-0 pr-5 pb-5'>
+          <span>&#169;</span>Ishan Sharma
+          </div>
+        </div>
       </div>
       <div className='drawer-side'>
         <label
