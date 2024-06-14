@@ -6,8 +6,9 @@ const HomePage = () => {
         <div className='max-w-md'>
           <h1 className='text-6xl font-bold text-primary'>GPTGenius</h1>
           <p className='py-6 text-lg leading-loose'>
-            GPTGenius: Your AI language companion. Powered by OpenAI, it
+            GPTGenius: Your AI language companion.It
             enhances your conversations, content creation, and more!
+            Also get info about your favourite tourist destination.
           </p>
           
           
