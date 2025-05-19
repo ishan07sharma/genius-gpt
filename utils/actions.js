@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import prisma from "./db";
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 const chat = model.startChat({
     history: [], // Start with an empty history
     generationConfig: {
@@ -12,13 +12,13 @@ const chat = model.startChat({
 });
 export async function run(chatMessage) {
     try {
-        
-     
-    
+      
+      
+      
     const result = await chat.sendMessage(chatMessage);
     const response = await result.response;
     const text = await response.text();
-    //console.log("AI: ", text);
+    //console.log("AI: ", response);
     return text
     }catch (error) {
         return null;
@@ -26,11 +26,34 @@ export async function run(chatMessage) {
 }
 
 
+export async function fetchImage(city) {
+  if (!city) return null;
+
+  try {
+    const response = await fetch(
+      `https://api.unsplash.com/search/photos?query=${city}&per_page=1&client_id=${process.env.UNSPLASH_API_KEY}`
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error('Unsplash error:', error.errors);
+      return null;
+    }
+
+    const data = await response.json();
+    const imageUrl = data.results[0]?.urls?.regular || null;
+
+    return imageUrl;
+  } catch (error) {
+    console.error('Failed to fetch Unsplash image:', error);
+    return null;
+  }
+}
 
 
   
 export const generateTourResponse = async ({ city, country }) => {
-    console.log(city,country);
+    //console.log(city,country);
     const query = `Find a ${city} in this ${country}.
     If ${city} in this ${country} exists, create a list of things families can do in this ${city},${country}. 
     Once you have a list, create a one-day tour. Response should be in the following JSON format: 
@@ -53,10 +76,16 @@ export const generateTourResponse = async ({ city, country }) => {
         //     },
         // });
         const result = await model.generateContent(query);
-        const response = await result.response;
-        const text = response.text();
-        //console.log(text);
-        const tourinfo=JSON.parse(text)
+        let response =  result.response;
+        
+        //console.log(response);
+        
+        let text = response.text();
+        text = text.replace(/^```json\s*/i, '').replace(/```$/, '');
+       // console.log(text);
+        const tourinfo=JSON.parse(text);
+        //console.log(tourinfo);
+        
         if (!tourinfo.tour) {
             return null;
           }
@@ -68,7 +97,7 @@ export const generateTourResponse = async ({ city, country }) => {
 
         
     } catch (error) {
-        console.log(error);
+       // console.log(error);
         return null;
     }
   };

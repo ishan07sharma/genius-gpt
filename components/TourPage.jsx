@@ -37,6 +37,7 @@ const ToursPage = () => {
       {isPending ? (
         <span className=' loading'></span>
       ) : (
+        
         <ToursList data={data} />
       )}
     </>
